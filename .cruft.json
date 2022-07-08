@@ -1,0 +1,85 @@
+{
+  "template": "https://github.com/lkubb/salt-template-formula-compose",
+  "commit": "3bf116fca254f07ebcba5a30fcc5f071472ef84a",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "_extensions": [
+        "local_extensions.YAMLDumper"
+      ],
+      "_jinja2_env_vars": {
+        "block_start_string": "{!",
+        "block_end_string": "!}",
+        "variable_start_string": "{=",
+        "variable_end_string": "=}",
+        "comment_start_string": "{@",
+        "comment_end_string": "@}"
+      },
+      "name": "n8n",
+      "abbr": "n8n",
+      "abbr_pysafe": "n8n",
+      "project_name": "n8n",
+      "containers": "n8n,db",
+      "git_username": "lkubb",
+      "_lookup": {
+        "containers": {
+          "db": {
+            "image": "docker.io/libary/mariadb"
+          },
+          "n8n": {
+            "image": "docker.io/n8nio/n8n:latest"
+          },
+          "redis": {
+            "image": "docker.io/library/redis:latest"
+          }
+        },
+        "paths": {
+          "data": "data",
+          "db": "db"
+        }
+      },
+      "_settings": {
+        "config": {
+          "generic_timezone": "Etc/UTC",
+          "db": {
+            "type": "sqlite",
+            "mysqldb": {
+              "database": "n8n",
+              "host": "db",
+              "port": 3306,
+              "user": "n8n",
+              "password": null
+            },
+            "postgresdb": {
+              "database": "n8n",
+              "host": "db",
+              "port": 5432,
+              "user": "n8n",
+              "password": null
+            }
+          },
+          "n8n": {
+            "diagnostics": {
+              "enabled": false
+            },
+            "port": 5678
+          },
+          "queue": {
+            "bull_redis_host": "redis"
+          }
+        },
+        "mysql": {
+          "enable": false
+        },
+        "redis": {
+          "enable": false
+        },
+        "postgres": {
+          "enable": false
+        }
+      },
+      "_template": "https://github.com/lkubb/salt-template-formula-compose"
+    }
+  },
+  "directory": null
+}

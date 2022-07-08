@@ -1,0 +1,60 @@
+version: '3.3'
+
+services:
+  app:
+    image: {{ n8n.lookup.containers.n8n.image }}
+    restart: unless-stopped
+    env_file:
+      - n8n.env
+    ports:
+      - {{ n8n.config.n8n.port }}:{{ n8n.config.n8n.port }}
+{%- if n8n.mysql.enable or n8n.redis.enable %}
+    depends_on:
+{%-   if n8n.mysql.enable %}
+      - db
+{%-   endif %}
+{%-   if n8n.redis.enable %}
+      - redis
+{%-   endif %}
+{%- endif %}
+{%- if n8n.mysql.enable %}
+  db:
+    image: {{ n8n.lookup.containers.db.image }}
+    restart: unless-stopped
+    env_file:
+      - db.env
+    volumes:
+      - {{ n8n.lookup.paths.db or "n8n-db" }}:/var/lib/mysql
+{%- endif %}
+{%- if n8n.redis.enable %}
+  redis:
+    image: {{ n8n.lookup.containers.redis.image }}
+    container_name: redis
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - n8n-redis:/data
+    restart: unless-stopped
+    healthcheck:
+      test: redis-cli ping
+      interval: 30s
+      timeout: 5s
+      retries: 2
+{%- endif %}
+{%- if not n8n.lookup.paths.data
+       or (n8n.mysql.enable and not n8n.lookup.paths.db)
+       or n8n.redis.enable %}
+
+volumes:
+{%-   if not n8n.lookup.paths.data %}
+  n8n-data:
+    name: n8n-data
+{%-   endif %}
+{%-   if n8n.mysql.enable and not n8n.lookup.paths.db %}
+  n8n-db:
+    name: n8n-db
+{%-   endif %}
+{%-   if n8n.redis.enable %}
+  n8n-redis:
+    name: n8n-redis
+{%-   endif %}
+{%- endif %}

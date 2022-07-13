@@ -10,8 +10,8 @@ n8n:
       # Setting this to true might incur accidental data loss!
     remove_all_data_for_sure: false
   config:
-      # Used to manually provide the Webhook URL when running n8n behind a reverse proxy.
-      # https://docs.n8n.io/hosting/configuration/#webhook-url
+      # Used to manually provide the Webhook URL when running n8n behind a
+      # reverse proxy. https://docs.n8n.io/hosting/configuration/#webhook-url
   # webhook_url: null
       # The n8n instance timezone. Important for schedule nodes (such as Cron).
     generic_timezone: Etc/UTC
@@ -80,11 +80,13 @@ n8n:
         # than the default, n8n displays UI strings in the selected locale, and falls
         # back to en for any untranslated strings.
     # default_locale: en
-        # Public URL where users can access the editor. Also used for emails sent from n8n.
+        # Public URL where users can access the editor.
+        # Also used for emails sent from n8n.
     # editor_base_url: null
         # Use to provide the path(s) to any JSON configuration file(s) (comma-separated).
     # config_files: null
-        # Disable the UI (true) or not (false).
+        # Use to provide the path(s) to any JSON configuration file(s)
+        # (comma-separated).
     # disable_ui: false
     # templates:
           # Enable workflow templates (true) or disable (false).
@@ -111,7 +113,8 @@ n8n:
     # ssl_key: null
         # The SSL certificate for HTTPS protocol.
     # ssl_cert: null
-        # Whether to ask users personalisation questions and then customise n8n accordingly.
+        # Whether to ask users personalisation questions and then customise
+        # n8n accordingly.
     # personalization_enabled: true
     # version_notifications:
           # When enabled, n8n sends notifications of new versions and security updates.
@@ -173,8 +176,8 @@ n8n:
     # endpoint_webhook_test: webhook-test
         # The path used for waiting-webhook endpoint.
     # endpoint_webhook_wait: webhook-waiting
-        # Disable production webhooks from main process. This helps ensure no HTTP traffic
-        # load to main process when using webhook-specific processes.
+        # Disable production webhooks from main process. This helps ensure no HTTP
+        # traffic load to main process when using webhook-specific processes.
     # disable_production_main_process: false
         # Only de-register webhooks on external services when workflows are deactivated.
     # skip_webhook_deregistration_shutdown: false
@@ -221,7 +224,8 @@ n8n:
       # file_location: null
         # Specify the path to additional directories containing your custom nodes.
     # custom_extensions: null
-        # Whether to show onboarding tips when creating a new workflow (true) or not (false).
+        # Whether to show onboarding tips when creating a new workflow (true)
+        # or not (false).
     # onboarding_flow_disabled: false
         # Whether to disable workflow tags (true) or enable tags (false).
     # workflow_tags_disabled: false
@@ -244,8 +248,8 @@ n8n:
     # bull_redis_port: 6379
     # bull_redis_password: null
     # bull_redis_timeout_threshold: 10000
-        # Interval (in seconds) for active polling to the queue to recover from Redis crashes.
-        # 0 disables recovery. May increase Redis traffic significantly.
+        # Interval (in seconds) for active polling to the queue to recover from Redis
+        # crashes. 0 disables recovery. May increase Redis traffic significantly.
     # recovery_interval: 60
         # Whether to enable health checks (true) or disable (false).
     # health_check_active: false
@@ -253,7 +257,14 @@ n8n:
     # health_check_port: null
 
   # executions:
-        # Whether n8n executions run in their own process or the main process. `own`/`main`
+        # Whether n8n executions run in their own process or the main process.
+        # All workflows run in their own separate process. This ensures that all CPU
+        # cores get used and that they don't block each other on CPU intensive tasks.
+        # It also makes sure that one execution crashing doesn't take down the whole
+        # application. The disadvantage is that it slows down the start-time
+        # considerably and uses much more memory. If your workflows aren't CPU
+        # intensive, and they have to start very fast, it's possible to run them all
+        # directly in the main-process with this setting. `own`/`main`
     # process: own
         # Whether executions should run directly or using queue. `regular`/`queue`
     # mode: regular

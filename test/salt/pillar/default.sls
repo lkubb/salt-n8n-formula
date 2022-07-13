@@ -34,7 +34,7 @@ n8n:
       uid: null
     containers:
       db:
-        image: docker.io/libary/mariadb
+        image: docker.io/library/mariadb
       n8n:
         image: docker.io/n8nio/n8n:latest
       redis:

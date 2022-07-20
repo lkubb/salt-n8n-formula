@@ -8,6 +8,8 @@ services:
       - n8n.env
     ports:
       - {{ n8n.config.n8n.port }}:{{ n8n.config.n8n.port }}
+    volumes:
+      - {{ n8n.lookup.paths.data or "n8n-data" }}:/home/node/.n8n
 {%- if n8n.mysql.enable or n8n.redis.enable %}
     depends_on:
 {%-   if n8n.mysql.enable %}

@@ -33,6 +33,9 @@ n8n user session is not initialized at boot:
   compose.lingering_managed:
     - name: {{ n8n.lookup.user.name }}
     - enable: false
+    - onlyif:
+      - fun: user.info
+        name: {{ n8n.lookup.user.name }}
 
 n8n user account is absent:
   user.absent:
@@ -40,6 +43,9 @@ n8n user account is absent:
     - purge: {{ n8n.install.remove_all_data_for_sure }}
     - require:
       - n8n is absent
+    - retry:
+        attempts: 5
+        interval: 2
 
 {%- if n8n.install.remove_all_data_for_sure %}
 

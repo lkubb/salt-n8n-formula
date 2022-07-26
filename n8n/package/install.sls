@@ -22,6 +22,8 @@ n8n user session is initialized at boot:
   compose.lingering_managed:
     - name: {{ n8n.lookup.user.name }}
     - enable: {{ n8n.install.rootless }}
+    - require:
+      - user: {{ n8n.lookup.user.name }}
 
 n8n paths are present:
   file.directory:

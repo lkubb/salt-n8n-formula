@@ -5,9 +5,13 @@ services:
     image: {{ n8n.lookup.containers.n8n.image }}
     restart: unless-stopped
     env_file:
-      - n8n.env
+      - {{ n8n.lookup.paths.config_n8n }}
     ports:
       - {{ n8n.config.n8n.port }}:{{ n8n.config.n8n.port }}
+{%- if n8n.install.autoupdate %}
+    labels:
+      - io.containers.autoupdate=registry
+{%- endif %}
     volumes:
       - {{ n8n.lookup.paths.data or "n8n-data" }}:/home/node/.n8n
 {%- if n8n.mysql.enable or n8n.redis.enable %}
@@ -24,7 +28,11 @@ services:
     image: {{ n8n.lookup.containers.db.image }}
     restart: unless-stopped
     env_file:
-      - db.env
+      - {{ n8n.lookup.paths.config_db }}
+{%-   if n8n.install.autoupdate %}
+    labels:
+      - io.containers.autoupdate=registry
+{%-   endif %}
     volumes:
       - {{ n8n.lookup.paths.db or "n8n-db" }}:/var/lib/mysql
 {%- endif %}
@@ -41,6 +49,10 @@ services:
       interval: 30s
       timeout: 5s
       retries: 2
+{%-   if n8n.install.autoupdate %}
+    labels:
+      - io.containers.autoupdate=registry
+{%-   endif %}
 {%- endif %}
 {%- if not n8n.lookup.paths.data
        or (n8n.mysql.enable and not n8n.lookup.paths.db)

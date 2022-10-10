@@ -8,6 +8,18 @@
 include:
   - {{ sls_config_clean }}
 
+{%- if n8n.install.autoupdate_service %}
+
+Podman autoupdate service is disabled for n8n:
+{%-   if n8n.install.rootless %}
+  compose.systemd_service_disabled:
+    - user: {{ n8n.lookup.user.name }}
+{%-   else %}
+  service.disabled:
+{%-   endif %}
+    - name: podman-auto-update.timer
+{%- endif %}
+
 n8n is absent:
   compose.removed:
     - name: {{ n8n.lookup.paths.compose }}

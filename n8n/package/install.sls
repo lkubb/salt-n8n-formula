@@ -71,3 +71,15 @@ n8n is installed:
     - require:
       - user: {{ n8n.lookup.user.name }}
 {%- endif %}
+
+{%- if n8n.install.autoupdate_service is not none %}
+
+Podman autoupdate service is managed for n8n:
+{%-   if n8n.install.rootless %}
+  compose.systemd_service_{{ "enabled" if n8n.install.autoupdate_service else "disabled" }}:
+    - user: {{ n8n.lookup.user.name }}
+{%-   else %}
+  service.{{ "enabled" if n8n.install.autoupdate_service else "disabled" }}:
+{%-   endif %}
+    - name: podman-auto-update.timer
+{%- endif %}

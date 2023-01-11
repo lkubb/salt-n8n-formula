@@ -15,5 +15,6 @@ n8n environment files are absent:
     - names:
       - {{ n8n.lookup.paths.config_n8n }}
       - {{ n8n.lookup.paths.config_db }}
+      - {{ n8n.lookup.paths.base | path_join(".saltcache.yml") }}
     - require:
       - sls: {{ sls_service_clean }}

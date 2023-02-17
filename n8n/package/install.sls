@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
+{%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as n8n with context %}
 {%- from tplroot ~ "/libtofs.jinja" import files_switch with context %}
 
@@ -35,11 +34,28 @@ n8n paths are present:
     - require:
       - user: {{ n8n.lookup.user.name }}
 
+{%- if n8n.install.podman_api %}
+
+n8n podman API is enabled:
+  compose.systemd_service_enabled:
+    - name: podman
+    - user: {{ n8n.lookup.user.name }}
+    - require:
+      - n8n user session is initialized at boot
+
+n8n podman API is available:
+  compose.systemd_service_running:
+    - name: podman
+    - user: {{ n8n.lookup.user.name }}
+    - require:
+      - n8n user session is initialized at boot
+{%- endif %}
+
 n8n compose file is managed:
   file.managed:
     - name: {{ n8n.lookup.paths.compose }}
-    - source: {{ files_switch(['docker-compose.yml', 'docker-compose.yml.j2'],
-                              lookup='n8n compose file is present'
+    - source: {{ files_switch(["docker-compose.yml", "docker-compose.yml.j2"],
+                              lookup="n8n compose file is present"
                  )
               }}
     - mode: '0644'

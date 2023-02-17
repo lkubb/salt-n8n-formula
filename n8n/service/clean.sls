@@ -1,7 +1,12 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
+
+{#-
+    Stops the n8n, db container services
+    and disables them at boot time.
+#}
+
+{%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as n8n with context %}
 
 n8n service is dead:

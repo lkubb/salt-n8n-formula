@@ -1,8 +1,14 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
-{%- set sls_config_clean = tplroot ~ '.config.clean' %}
+{#-
+    Removes the n8n, db containers
+    and the corresponding user account and service units.
+    Has a depency on `n8n.config.clean`_.
+    If ``remove_all_data_for_sure`` was set, also removes all data.
+#}
+
+{%- set tplroot = tpldir.split("/")[0] %}
+{%- set sls_config_clean = tplroot ~ ".config.clean" %}
 {%- from tplroot ~ "/map.jinja" import mapdata as n8n with context %}
 
 include:
@@ -40,6 +46,25 @@ n8n compose file is absent:
     - name: {{ n8n.lookup.paths.compose }}
     - require:
       - n8n is absent
+
+{%- if n8n.install.podman_api %}
+
+n8n podman API is unavailable:
+  compose.systemd_service_dead:
+    - name: podman
+    - user: {{ n8n.lookup.user.name }}
+    - onlyif:
+      - fun: user.info
+        name: {{ n8n.lookup.user.name }}
+
+n8n podman API is disabled:
+  compose.systemd_service_disabled:
+    - name: podman
+    - user: {{ n8n.lookup.user.name }}
+    - onlyif:
+      - fun: user.info
+        name: {{ n8n.lookup.user.name }}
+{%- endif %}
 
 n8n user session is not initialized at boot:
   compose.lingering_managed:

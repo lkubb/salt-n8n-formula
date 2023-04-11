@@ -38,14 +38,14 @@ n8n paths are present:
 
 n8n podman API is enabled:
   compose.systemd_service_enabled:
-    - name: podman
+    - name: podman.socket
     - user: {{ n8n.lookup.user.name }}
     - require:
       - n8n user session is initialized at boot
 
 n8n podman API is available:
   compose.systemd_service_running:
-    - name: podman
+    - name: podman.socket
     - user: {{ n8n.lookup.user.name }}
     - require:
       - n8n user session is initialized at boot

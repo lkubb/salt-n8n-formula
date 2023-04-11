@@ -51,7 +51,7 @@ n8n compose file is absent:
 
 n8n podman API is unavailable:
   compose.systemd_service_dead:
-    - name: podman
+    - name: podman.socket
     - user: {{ n8n.lookup.user.name }}
     - onlyif:
       - fun: user.info
@@ -59,7 +59,7 @@ n8n podman API is unavailable:
 
 n8n podman API is disabled:
   compose.systemd_service_disabled:
-    - name: podman
+    - name: podman.socket
     - user: {{ n8n.lookup.user.name }}
     - onlyif:
       - fun: user.info

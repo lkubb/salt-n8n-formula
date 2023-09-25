@@ -34,7 +34,7 @@ n8n environment files are managed:
     - template: jinja
     - require:
       - user: {{ n8n.lookup.user.name }}
-    - watch_in:
+    - require_in:
       - n8n is installed
     - context:
         n8n: {{ n8n | json }}

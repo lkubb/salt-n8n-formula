@@ -34,3 +34,4 @@ n8n service is running:
 {%- endif %}
     - watch:
       - n8n is installed
+      - sls: {{ sls_config_file }}

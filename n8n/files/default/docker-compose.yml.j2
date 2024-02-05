@@ -13,7 +13,7 @@ services:
       - io.containers.autoupdate=registry
 {%- endif %}
     volumes:
-      - {{ n8n.lookup.paths.data or "n8n-data" }}:/home/node/.n8n
+      - {{ n8n.lookup.paths.data or "n8n-data" }}:/home/node/.n8n:Z
 {%- if n8n.mysql.enable or n8n.redis.enable %}
     depends_on:
 {%-   if n8n.mysql.enable %}
@@ -34,7 +34,7 @@ services:
       - io.containers.autoupdate=registry
 {%-   endif %}
     volumes:
-      - {{ n8n.lookup.paths.db or "n8n-db" }}:/var/lib/mysql
+      - {{ n8n.lookup.paths.db or "n8n-db" }}:/var/lib/mysql:Z
 {%- endif %}
 {%- if n8n.redis.enable %}
   redis:

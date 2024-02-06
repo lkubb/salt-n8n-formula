@@ -38,3 +38,10 @@ n8n environment files are managed:
       - n8n is installed
     - context:
         n8n: {{ n8n | json }}
+
+n8n data dir has correct permissions:
+  compose.file_directory:
+    - name: {{ n8n.lookup.paths.data }}
+    - project: {{ n8n.lookup.compose.project_name }}
+    - user: 1000
+    - group: 1000
